@@ -4,7 +4,7 @@ Created on Sat Sep  7 00:15:02 2019
 
 @author: M.Hamza Ashraf
 """
-#python Desktop\IR.py "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
+#python "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\IR-Assignment1\IR.py" "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem import SnowballStemmer
 from bs4 import BeautifulSoup
@@ -27,14 +27,16 @@ arg=sys.argv[1]
 
 docf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\docids.txt","w")
 termf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\termids.txt","w",errors='ignore')
+StopList = [line.rstrip('\n') for line in open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\stoplist.txt").readlines()]
+s=set(StopList)
+
 files = os.listdir(arg)
 
 for i in files:
     soup = BeautifulSoup(open(arg + "\\" + i, 'rb').read(), "html.parser", from_encoding="iso-8859-1")
     print(i)
     
-    docf.write(str(c)+"\t"+i+"\n")
-    c=c+1 
+    
     for ext in soup(["script", "style"]):
         ext.extract()
         
@@ -55,8 +57,7 @@ for i in files:
     
     tokens=[c.lower() for c in tokens]
     
-    StopList = [line.rstrip('\n') for line in open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\stoplist.txt").readlines()]
-    s=set(StopList)
+    
     
     for w in tokens: 
         if w not in s: 
@@ -72,7 +73,8 @@ for i in files:
                 c1=c1+1
    
         
-      
+    docf.write(str(c)+"\t"+i+"\n")
+    c=c+1  
     
     #a=a+1
     #if a==b:
