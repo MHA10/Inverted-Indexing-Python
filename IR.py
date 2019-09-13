@@ -12,24 +12,27 @@ import sys
 import os
 a=0
 b=5
-c=1
-c1=1
-results=[]
+DocId=1
+TermId=1
+
+inverteddict={}
+uniquedict={}
+
 new_tokens=[]
 unique_list = []
 final=""
 stemmer = SnowballStemmer('english')
 tk = RegexpTokenizer("[\w']+") 
 
+arg=r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
+#arg=sys.argv[1]
 
-arg=sys.argv[1]
-#f = open(arg,'r')
 
 docf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\docids.txt","w")
 termf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\termids.txt","w",errors='ignore')
+#indexf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\term_index.txt","w")
 StopList = [line.rstrip('\n') for line in open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\stoplist.txt").readlines()]
 s=set(StopList)
-u=set(unique_list)
 files = os.listdir(arg)
 
 for i in files:
@@ -39,14 +42,12 @@ for i in files:
     
     for ext in soup(["script", "style"]):
         ext.extract()
-        
-    #(ext.extract() for ext in soup(["script", "style"]))            
     
     
     if (soup.find('body')) is not None:
         rows = soup.find('body').text
-        docf.write(str(c)+"\t"+i+"\n")
-        #results.append(rows)
+        docf.write(str(DocId)+"\t"+i+"\n")
+        
         
     else:
         rows=''
@@ -56,7 +57,7 @@ for i in files:
     tokens = tk.tokenize(final)
     #print(tokens)
     
-    tokens=[c.lower() for c in tokens]
+    tokens=[DocId.lower() for DocId in tokens]
     
     
     
@@ -68,56 +69,30 @@ for i in files:
     
     
     for j in stemmed_tokens:
-        if j not in u: 
-                u.add(j)
-                termf.write(str(c1)+"\t"+j+"\n")
-                c1=c1+1
-   
+        if j not in uniquedict.keys():
+            uniquedict.update({j:TermId})
+            termf.write(str(TermId)+"\t"+j+"\n")
+            inverteddict.update({TermId:[DocId]})
+            TermId=TermId+1
+                
+        else:
+            #print("repeat!!")
+            key = uniquedict.get(j)
+            inverteddict[key].append(DocId)
+            
         
     
-    c=c+1  
+    DocId=DocId+1  
     tokens.clear()
     new_tokens.clear()
     stemmed_tokens.clear()
     
-# =============================================================================
-#     a=a+1
-#     if a==b:
-#         break
-# =============================================================================
-#print(rows)
+    a=a+1
+    if a==b:
+        break
+    
+print(inverteddict)
    
-
-
-#print(tokens)
-
-
-
-
-
-
-
-
-#print(new_tokens)
-#print('\n')
-#print(stemmed_tokens)
-
 
 docf.close()
 termf.close()
-
-#soup = BeautifulSoup(f, 'html.parser')
-#soup = BeautifulSoup(open(path + "/" + name, 'rb').read(), "html.parser", from_encoding="iso-8859-1")
-#soup = BeautifulSoup(f, "html.parser", from_encoding="iso-8859-1")
-
-
-#for ext in soup(["script", "style"]):
-#    ext.extract()
-
-#rows = soup.find('body').text
-#soup.find
-#print(arg)
-#os.listdir
-#gettext
-#lltk
-#print(rows)
