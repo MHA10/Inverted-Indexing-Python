@@ -45,6 +45,7 @@ for i in files:
     
     if (soup.find('body')) is not None:
         rows = soup.find('body').text
+        docf.write(str(c)+"\t"+i+"\n")
         #results.append(rows)
         
     else:
@@ -73,7 +74,7 @@ for i in files:
                 c1=c1+1
    
         
-    docf.write(str(c)+"\t"+i+"\n")
+    
     c=c+1  
     tokens.clear()
     new_tokens.clear()
