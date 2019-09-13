@@ -59,7 +59,7 @@ for i in files:
     
     
     
-    for w in tokens: 
+    for w in list(tokens): 
         if w not in s: 
             new_tokens.append(w)
     
@@ -75,10 +75,13 @@ for i in files:
         
     docf.write(str(c)+"\t"+i+"\n")
     c=c+1  
+    results.clear()
+    new_tokens.clear()
+    stemmed_tokens.clear()
     
-    #a=a+1
-    #if a==b:
-    #    break
+    a=a+1
+    if a==b:
+        break
 #print(rows)
    
 
