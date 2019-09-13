@@ -29,7 +29,7 @@ docf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\
 termf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\termids.txt","w",errors='ignore')
 StopList = [line.rstrip('\n') for line in open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\stoplist.txt").readlines()]
 s=set(StopList)
-
+u=set(unique_list)
 files = os.listdir(arg)
 
 for i in files:
@@ -67,21 +67,23 @@ for i in files:
     
     
     for j in stemmed_tokens:
-        if j not in unique_list: 
-                unique_list.append(j)
+        if j not in u: 
+                u.add(j)
                 termf.write(str(c1)+"\t"+j+"\n")
                 c1=c1+1
    
         
     docf.write(str(c)+"\t"+i+"\n")
     c=c+1  
-    results.clear()
+    tokens.clear()
     new_tokens.clear()
     stemmed_tokens.clear()
     
-    a=a+1
-    if a==b:
-        break
+# =============================================================================
+#     a=a+1
+#     if a==b:
+#         break
+# =============================================================================
 #print(rows)
    
 
