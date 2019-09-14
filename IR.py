@@ -11,12 +11,16 @@ from bs4 import BeautifulSoup
 import sys 
 import os
 a=0
-b=1
+b=4
 DocId=1
 TermId=1
 position=0
+total_occ_corpus = 0
+total_occ_doc = 0
+
 inverteddict={}
 uniquedict={}
+docdict={}
 
 new_tokens=[]
 unique_list = []
@@ -30,7 +34,7 @@ arg=r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
 
 docf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\docids.txt","w")
 termf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\termids.txt","w",errors='ignore')
-#indexf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\term_index.txt","w")
+indexf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\term_index.txt","w")
 StopList = [line.rstrip('\n') for line in open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\stoplist.txt").readlines()]
 s=set(StopList)
 files = os.listdir(arg)
@@ -70,15 +74,22 @@ for i in files:
     
     for j in stemmed_tokens:
         position = position + 1
+        
         if j not in uniquedict.keys():
+            
+           
+           
             uniquedict.update({j:TermId})
             termf.write(str(TermId)+"\t"+j+"\n")
+            
+            docdict.update({TermId:total_occ_doc})
             inverteddict.update({TermId:[str(DocId) + "," + str(position)]})
             TermId=TermId+1
                 
         else:
             #print("repeat!!")
             key = uniquedict.get(j)
+            
             inverteddict[key].append(str(DocId) + "," + str(position))
             
         
@@ -86,14 +97,34 @@ for i in files:
     DocId=DocId+1  
     tokens.clear()
     new_tokens.clear()
-    #stemmed_tokens.clear()
+    stemmed_tokens.clear()
     position=0
+    
     a=a+1
     if a==b:
         break
+
+ulist = []     
+
+for k, v in inverteddict.items():
+    vv = ' '.join(v)
     
-print(uniquedict)
-   
+    for x in v:
+        if (x.split(',')[0]) not in ulist:
+            ulist.append(x.split(',')[0])  
+        
+        
+    indexf.write(str(k) + " ")
+    indexf.write(str(len(v)) + " ")
+    indexf.write(str(len(ulist)) + " ")
+    
+    for i in vv:
+        indexf.write(i)
+        
+    indexf.write("\n")    
+    ulist.clear()
+
 
 docf.close()
 termf.close()
+indexf.close()
