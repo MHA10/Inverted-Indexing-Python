@@ -15,8 +15,6 @@ b=4
 DocId=1
 TermId=1
 position=0
-total_occ_corpus = 0
-total_occ_doc = 0
 
 inverteddict={}
 uniquedict={}
@@ -82,7 +80,6 @@ for i in files:
             uniquedict.update({j:TermId})
             termf.write(str(TermId)+"\t"+j+"\n")
             
-            docdict.update({TermId:total_occ_doc})
             inverteddict.update({TermId:[str(DocId) + "," + str(position)]})
             TermId=TermId+1
                 
