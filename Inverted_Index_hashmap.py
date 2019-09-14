@@ -8,7 +8,7 @@ Created on Sat Sep  7 00:15:02 2019
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem import SnowballStemmer
 from bs4 import BeautifulSoup
-import sys 
+
 import os
 a=0
 b=4
