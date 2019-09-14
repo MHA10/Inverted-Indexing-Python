@@ -11,10 +11,10 @@ from bs4 import BeautifulSoup
 import sys 
 import os
 a=0
-b=5
+b=1
 DocId=1
 TermId=1
-
+position=0
 inverteddict={}
 uniquedict={}
 
@@ -53,7 +53,7 @@ for i in files:
         rows=''
     
     final = ''.join(rows)
-
+    final = final.encode("utf-8").decode()
     tokens = tk.tokenize(final)
     #print(tokens)
     
@@ -69,29 +69,30 @@ for i in files:
     
     
     for j in stemmed_tokens:
+        position = position + 1
         if j not in uniquedict.keys():
             uniquedict.update({j:TermId})
             termf.write(str(TermId)+"\t"+j+"\n")
-            inverteddict.update({TermId:[DocId]})
+            inverteddict.update({TermId:[str(DocId) + "," + str(position)]})
             TermId=TermId+1
                 
         else:
             #print("repeat!!")
             key = uniquedict.get(j)
-            inverteddict[key].append(DocId)
+            inverteddict[key].append(str(DocId) + "," + str(position))
             
         
     
     DocId=DocId+1  
     tokens.clear()
     new_tokens.clear()
-    stemmed_tokens.clear()
-    
+    #stemmed_tokens.clear()
+    position=0
     a=a+1
     if a==b:
         break
     
-print(inverteddict)
+print(uniquedict)
    
 
 docf.close()
