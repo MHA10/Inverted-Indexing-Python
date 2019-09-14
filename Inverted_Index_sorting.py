@@ -11,16 +11,18 @@ from bs4 import BeautifulSoup
 
 import os
 a=0
-b=4
+b=1
 DocId=1
 TermId=1
 position=0
-total_occ_corpus = 0
-total_occ_doc = 0
 
-inverteddict={}
+
+doc_term_list = []
+inverted_list = []
+
+invertedtuple=()
 uniquedict={}
-docdict={}
+
 
 new_tokens=[]
 unique_list = []
@@ -74,17 +76,17 @@ for i in files:
     
     for j in stemmed_tokens:
         position = position + 1
+        doc_term_list.append([TermId,DocId])
         
         if j not in uniquedict.keys():
             
-           
-           
             uniquedict.update({j:TermId})
             termf.write(str(TermId)+"\t"+j+"\n")
-            
-            docdict.update({TermId:total_occ_doc})
-            inverteddict.update({TermId:[str(DocId) + "," + str(position)]})
             TermId=TermId+1
+            
+            
+            #inverteddict.update({TermId:[str(DocId) + "," + str(position)]})
+            
                 
         else:
             #print("repeat!!")
@@ -92,7 +94,12 @@ for i in files:
             
             inverteddict[key].append(str(DocId) + "," + str(position))
             
+    ulist=[]
+       
+    for j in doc_term_list:
         
+        if j not in ulist:
+         
     
     DocId=DocId+1  
     tokens.clear()
@@ -103,26 +110,39 @@ for i in files:
     a=a+1
     if a==b:
         break
+ 
+def takeSecond(elem):
+    #print (elem[1])
+    return elem[1]  
 
-ulist = []     
 
-for k, v in inverteddict.items():
-    vv = ' '.join(v)
-    
-    for x in v:
-        if (x.split(',')[0]) not in ulist:
-            ulist.append(x.split(',')[0])  
-        
-        
-    indexf.write(str(k) + " ")
-    indexf.write(str(len(v)) + " ")
-    indexf.write(str(len(ulist)) + " ")
-    
-    for i in vv:
-        indexf.write(i)
-        
-    indexf.write("\n")    
-    ulist.clear()
+#invertedlist.sort(key=takeSecond)
+
+print(doc_term_list)
+print(len(doc_term_list))
+invertedtuple = tuple([elements] for elements in doc_term_list) 
+
+# =============================================================================
+# ulist = []     
+# 
+# for k, v in inverteddict.items():
+#     vv = ' '.join(v)
+#     
+#     for x in v:
+#         if (x.split(',')[0]) not in ulist:
+#             ulist.append(x.split(',')[0])  
+#         
+#         
+#     indexf.write(str(k) + " ")
+#     indexf.write(str(len(v)) + " ")
+#     indexf.write(str(len(ulist)) + " ")
+#     
+#     for i in vv:
+#         indexf.write(i)
+#         
+#     indexf.write("\n")    
+#     ulist.clear()
+# =============================================================================
 
 
 docf.close()
