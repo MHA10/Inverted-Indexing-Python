@@ -57,7 +57,7 @@ for i in files:
     tokens = tk.tokenize(final)
     #print(tokens)
     
-    tokens=[DocId.lower() for DocId in tokens]
+    tokens=[tok.lower() for tok in tokens if tok.isalpha()]
     
     
     
