@@ -4,14 +4,18 @@ Created on Sat Sep  7 00:15:02 2019
 
 @author: M.Hamza Ashraf
 """
-#python "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\IR-Assignment1\IR.py" "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
+#python "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\IR-Assignment1\Inverted_Index_hashmap.py" "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem import SnowballStemmer
 from bs4 import BeautifulSoup
-
+import sys
 import os
-a=0
-b=5
+
+# =============================================================================
+# a=0
+# b=5
+# =============================================================================
+
 DocId=1
 prev_DocId = 0
 prev_Position = 0
@@ -29,12 +33,12 @@ final=""
 stemmer = SnowballStemmer('english')
 tk = RegexpTokenizer("[\w']+") 
 
-arg=r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
-#arg=sys.argv[1]
+#arg=r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
+arg=sys.argv[1]
 
 
-docf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\docids.txt","w")
-termf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\termids.txt","w",errors='ignore')
+#docf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\docids.txt","w")
+#termf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\termids.txt","w",errors='ignore')
 indexf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\term_index.txt","w")
 StopList = [line.rstrip('\n') for line in open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\stoplist.txt").readlines()]
 s=set(StopList)
@@ -53,7 +57,7 @@ for i in files:
   
         if (soup.find('body')) is not None:
             rows = soup.find('body').text
-            docf.write(str(DocId)+"\t"+i+"\n")
+            #docf.write(str(DocId)+"\t"+i+"\n")
             DocId=DocId+1
 
             
@@ -78,7 +82,7 @@ for i in files:
             if j not in uniquedict.keys():
      
                 uniquedict.update({j:TermId})
-                termf.write(str(TermId)+"\t"+j+"\n")
+                #termf.write(str(TermId)+"\t"+j+"\n")
                 
                 inverteddict.update({TermId:[str(DocId-1) + "," + str(position)]})               
                 TermId=TermId+1
@@ -92,9 +96,11 @@ for i in files:
     stemmed_tokens.clear()
     position=0
     
-    a=a+1
-    if a==b:
-        break
+# =============================================================================
+#     a=a+1
+#     if a==b:
+#         break
+# =============================================================================
 
 ulist = []
 tlist = []     
@@ -151,6 +157,6 @@ for k, v in edict.items():
     ulist.clear()
 
 
-docf.close()
-termf.close()
+#docf.close()
+#termf.close()
 indexf.close()
