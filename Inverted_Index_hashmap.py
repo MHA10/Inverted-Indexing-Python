@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 
 import os
 a=0
-b=5
+b=1
 DocId=1
 TermId=1
 position=0
@@ -87,14 +87,14 @@ for i in files:
             uniquedict.update({j:TermId})
             termf.write(str(TermId)+"\t"+j+"\n")
             
-            inverteddict.update({TermId:[str(DocId) + "," + str(position)]})
+            inverteddict.update({TermId:[str(DocId-1) + "," + str(position)]})
             TermId=TermId+1
                 
         else:
             #print("repeat!!")
             key = uniquedict.get(j)
             
-            inverteddict[key].append(str(DocId) + "," + str(position))
+            inverteddict[key].append(str(DocId-1) + "," + str(position))
             
         
     
