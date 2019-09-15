@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 
 import os
 a=0
-b=1
+b=10
 DocId=1
 TermId=1
 position=0
@@ -45,58 +45,59 @@ for i in files:
         soup = BeautifulSoup(open(arg + "\\" + i, 'rb').read(), "html.parser", from_encoding="iso-8859-1")
         print(i)
     
+        for ext in soup(["script", "style"]):
+            ext.extract()
     
     
-    for ext in soup(["script", "style"]):
-        ext.extract()
-    
-    
-    if (soup.find('body')) is not None:
-        if(p[1]!=".txt"):
+        if (soup.find('body')) is not None:
             rows = soup.find('body').text
             docf.write(str(DocId)+"\t"+i+"\n")
-            DocId=DocId+1  
-        
-        
-    else:
-        rows=''
-    
-    final = ''.join(rows)
-    final = final.encode("utf-8").decode()
-    tokens = tk.tokenize(final)
-    #print(tokens)
-    
-    tokens=[tok.lower() for tok in tokens if tok.isalpha()]
-    
-    
-    
-    for w in list(tokens): 
-        if w not in s: 
-            new_tokens.append(w)
-    
-    stemmed_tokens = [stemmer.stem(x) for x in new_tokens]
-    
-    
-    for j in stemmed_tokens:
-        position = position + 1
-        
-        if j not in uniquedict.keys():
+            DocId=DocId+1
             
-           
-           
-            uniquedict.update({j:TermId})
-            termf.write(str(TermId)+"\t"+j+"\n")
-            
-            inverteddict.update({TermId:[str(DocId-1) + "," + str(position)]})
-            TermId=TermId+1
                 
-        else:
-            #print("repeat!!")
-            key = uniquedict.get(j)
             
-            inverteddict[key].append(str(DocId-1) + "," + str(position))
+            
+        else:
+            rows=''
+        
+        final = ''.join(rows)
+        final = final.encode("utf-8").decode()
+        tokens = tk.tokenize(final)
+        #print(tokens)
+        
+        tokens=[tok.lower() for tok in tokens if tok.isalpha()]
+        
+        
+        
+        for w in list(tokens): 
+            if w not in s: 
+                new_tokens.append(w)
+        
+        stemmed_tokens = [stemmer.stem(x) for x in new_tokens]
+        
+        
+        for j in stemmed_tokens:
+            position = position + 1
+            
+            if j not in uniquedict.keys():
+                
+               
+               
+                uniquedict.update({j:TermId})
+                termf.write(str(TermId)+"\t"+j+"\n")
+                
+                inverteddict.update({TermId:[str(DocId-1) + "," + str(position)]})
+                TermId=TermId+1
+                    
+            else:
+                #print("repeat!!")
+                key = uniquedict.get(j)
+                
+                inverteddict[key].append(str(DocId-1) + "," + str(position))
+                
             
         
+          
     
     
     tokens.clear()
@@ -104,9 +105,11 @@ for i in files:
     stemmed_tokens.clear()
     position=0
     
-    a=a+1
-    if a==b:
-        break
+# =============================================================================
+#     a=a+1
+#     if a==b:
+#         break
+# =============================================================================
 
 ulist = []     
 
