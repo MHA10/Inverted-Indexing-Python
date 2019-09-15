@@ -42,8 +42,12 @@ s=set(StopList)
 files = os.listdir(arg)
 
 for i in files:
-    soup = BeautifulSoup(open(arg + "\\" + i, 'rb').read(), "html.parser", from_encoding="iso-8859-1")
-    print(i)
+    path = arg + "\\" + i
+    p = os.path.splitext(path)
+    
+    if(p[1]!=".txt"):
+        soup = BeautifulSoup(open(arg + "\\" + i, 'rb').read(), "html.parser", from_encoding="iso-8859-1")
+        print(i)
     
     
     for ext in soup(["script", "style"]):
@@ -51,9 +55,10 @@ for i in files:
     
     
     if (soup.find('body')) is not None:
-        rows = soup.find('body').text
-        docf.write(str(DocId)+"\t"+i+"\n")
-        
+        if(p[1]!=".txt"):
+            rows = soup.find('body').text
+            docf.write(str(DocId)+"\t"+i+"\n")
+            DocId=DocId+1  
         
     else:
         rows=''
@@ -88,20 +93,26 @@ for i in files:
             #inverteddict.update({TermId:[str(DocId) + "," + str(position)]})
             
                 
-        else:
-            #print("repeat!!")
-            key = uniquedict.get(j)
-            
-            inverteddict[key].append(str(DocId) + "," + str(position))
+# =============================================================================
+#         else:
+#             #print("repeat!!")
+#             key = uniquedict.get(j)
+#             
+#             inverteddict[key].append(str(DocId) + "," + str(position))
+# =============================================================================
             
     ulist=[]
        
     for j in doc_term_list:
         
         if j not in ulist:
+            ulist.append(j)
+          
+        else:
+            ulist.append(j)
          
     
-    DocId=DocId+1  
+    
     tokens.clear()
     new_tokens.clear()
     stemmed_tokens.clear()
