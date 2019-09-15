@@ -81,7 +81,7 @@ for i in files:
     
     for j in stemmed_tokens:
         position = position + 1
-        doc_term_list.append([TermId,DocId])
+        doc_term_list.append([TermId,DocId-1])
         
         if j not in uniquedict.keys():
             
