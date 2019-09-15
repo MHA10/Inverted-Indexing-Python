@@ -11,14 +11,17 @@ from bs4 import BeautifulSoup
 
 import os
 a=0
-b=10
+b=5
 DocId=1
+prev_DocId = 0
+prev_Position = 0
 TermId=1
 position=0
 
 inverteddict={}
 uniquedict={}
-docdict={}
+
+edict = {}
 
 new_tokens=[]
 unique_list = []
@@ -47,15 +50,12 @@ for i in files:
     
         for ext in soup(["script", "style"]):
             ext.extract()
-    
-    
+  
         if (soup.find('body')) is not None:
             rows = soup.find('body').text
             docf.write(str(DocId)+"\t"+i+"\n")
             DocId=DocId+1
-            
-                
-            
+
             
         else:
             rows=''
@@ -63,57 +63,76 @@ for i in files:
         final = ''.join(rows)
         final = final.encode("utf-8").decode()
         tokens = tk.tokenize(final)
-        #print(tokens)
         
         tokens=[tok.lower() for tok in tokens if tok.isalpha()]
-        
-        
         
         for w in list(tokens): 
             if w not in s: 
                 new_tokens.append(w)
         
         stemmed_tokens = [stemmer.stem(x) for x in new_tokens]
-        
-        
+                
         for j in stemmed_tokens:
             position = position + 1
             
             if j not in uniquedict.keys():
-                
-               
-               
+     
                 uniquedict.update({j:TermId})
                 termf.write(str(TermId)+"\t"+j+"\n")
                 
-                inverteddict.update({TermId:[str(DocId-1) + "," + str(position)]})
+                inverteddict.update({TermId:[str(DocId-1) + "," + str(position)]})               
                 TermId=TermId+1
                     
             else:
-                #print("repeat!!")
                 key = uniquedict.get(j)
-                
                 inverteddict[key].append(str(DocId-1) + "," + str(position))
-                
-            
-        
-          
-    
-    
+
     tokens.clear()
     new_tokens.clear()
     stemmed_tokens.clear()
     position=0
     
-# =============================================================================
-#     a=a+1
-#     if a==b:
-#         break
-# =============================================================================
+    a=a+1
+    if a==b:
+        break
 
-ulist = []     
+ulist = []
+tlist = []     
+a=1;
+
+curr_DocId = 0;
+curr_Position = 0;
 
 for k, v in inverteddict.items():
+
+    prev_DocId = (inverteddict[k][0]).split(',')[0]
+    prev_Position = (inverteddict[k][0]).split(',')[1]
+    
+    
+    for x in v:
+        
+        if(a == 1):
+            tlist.append(str(prev_DocId) + "," + str(prev_Position))
+            a = 0;
+        
+        else:
+           curr_DocId = x.split(',')[0]
+           curr_Position = x.split(',')[1]
+        
+           if((int(curr_DocId) - int(prev_DocId)) == 0): 
+               tlist.append(str(int(curr_DocId) - int(prev_DocId)) + "," + str(int(curr_Position) - int(prev_Position)))
+               
+           else:
+               tlist.append(str(int(curr_DocId) - int(prev_DocId)) + "," + str(curr_Position))
+               prev_DocId = curr_DocId
+               prev_Position = curr_Position
+    
+         
+    a = 1;
+    edict.update({k:tlist})
+    tlist = []       
+
+for k, v in edict.items():
     vv = ' '.join(v)
     
     for x in v:
