@@ -10,10 +10,8 @@ from nltk.stem import SnowballStemmer
 from bs4 import BeautifulSoup
 import sys
 import os
-# =============================================================================
-# a=0
-# b=1
-# =============================================================================
+a=0
+b=3
 DocId=1
 TermId=1
 position=0
@@ -32,8 +30,8 @@ final=""
 stemmer = SnowballStemmer('english')
 tk = RegexpTokenizer("[\w']+") 
 
-#arg=r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
-arg=sys.argv[1]
+arg=r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
+#arg=sys.argv[1]
 
 
 #docf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\docids.txt","w")
@@ -42,6 +40,10 @@ indexf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_
 StopList = [line.rstrip('\n') for line in open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\stoplist.txt").readlines()]
 s=set(StopList)
 files = os.listdir(arg)
+
+def takeSecond(elem):
+    #print (elem[1])
+    return elem[0] 
 
 for i in files:
     path = arg + "\\" + i
@@ -83,18 +85,29 @@ for i in files:
         
         for j in stemmed_tokens:
             position = position + 1
-            doc_term_list.append([TermId,DocId-1])
+            
+            
             
             if j not in uniquedict.keys():
                 
                 uniquedict.update({j:TermId})
-                #termf.write(str(TermId)+"\t"+j+"\n")
+                doc_term_list.append([TermId,str(DocId-1) + "," + str(position)])
                 TermId=TermId+1
-                
-                
                 #inverteddict.update({TermId:[str(DocId) + "," + str(position)]})
-                
-                    
+            
+            else:
+                key = uniquedict.get(j)
+                doc_term_list.append([key,str(DocId-1) + "," + str(position)])
+            
+            
+    tokens.clear()
+    new_tokens.clear()
+    stemmed_tokens.clear()
+    position=0
+    
+    a=a+1
+    if a==b:
+        break             
     # =============================================================================
     #         else:
     #             #print("repeat!!")
@@ -102,42 +115,37 @@ for i in files:
     #             
     #             inverteddict[key].append(str(DocId) + "," + str(position))
     # =============================================================================
-                
-        ulist=[]
-           
-        for j in doc_term_list:
+  
+
+doc_term_list.sort(key=takeSecond)   
+             
+        
             
-            if j not in ulist:
-                ulist.append(j)
-              
-            else:
-                ulist.append(j)
              
         
     
     
-    tokens.clear()
-    new_tokens.clear()
-    stemmed_tokens.clear()
-    position=0
     
+ 
 # =============================================================================
-#     a=a+1
-#     if a==b:
-#         break
-#  
+# ulist=[]
+# doc_term_list.sort(key=takeSecond)   
+#         
+# for j in doc_term_list:
+#     if j not in ulist:
+#                 ulist.append(j)
+#                 inverted_list.append(j)
+#               
+#     else:
+#         inverted_list[takeSecond(j)-1].append(j[1])
 # =============================================================================
-def takeSecond(elem):
-    #print (elem[1])
-    return elem[1]  
 
 
-#invertedlist.sort(key=takeSecond)
 
-print(doc_term_list)
-print(len(doc_term_list))
-invertedtuple = tuple([elements] for elements in doc_term_list) 
 
+#print(len(doc_term_list))
+#invertedtuple = ([elements] for elements in doc_term_list) 
+#print(inverted_list)
 # =============================================================================
 # ulist = []     
 # 
