@@ -37,11 +37,16 @@ tk = RegexpTokenizer("[\w']+")
 arg=sys.argv[1]
 
 
-#docf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\docids.txt","w")
-#termf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\termids.txt","w",errors='ignore')
+docf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\docids.txt","w")
+termf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\termids.txt","w",errors='ignore')
 indexf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\term_index.txt","w")
 StopList = [line.rstrip('\n') for line in open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\stoplist.txt").readlines()]
 s=set(StopList)
+
+
+def containsNonAscii(s):
+    return any(ord(i)>127 for i in s)
+
 files = os.listdir(arg)
 
 for i in files:
@@ -57,7 +62,7 @@ for i in files:
   
         if (soup.find('body')) is not None:
             rows = soup.find('body').text
-            #docf.write(str(DocId)+"\t"+i+"\n")
+            docf.write(str(DocId)+"\t"+i+"\n")
             DocId=DocId+1
 
             
@@ -69,6 +74,8 @@ for i in files:
         tokens = tk.tokenize(final)
         
         tokens=[tok.lower() for tok in tokens if tok.isalpha()]
+        
+        tokens = [word for word in tokens if  not containsNonAscii(word)]
         
         for w in list(tokens): 
             if w not in s: 
@@ -82,7 +89,7 @@ for i in files:
             if j not in uniquedict.keys():
      
                 uniquedict.update({j:TermId})
-                #termf.write(str(TermId)+"\t"+j+"\n")
+                termf.write(str(TermId)+"\t"+j+"\n")
                 
                 inverteddict.update({TermId:[str(DocId-1) + "," + str(position)]})               
                 TermId=TermId+1
@@ -156,6 +163,6 @@ for k, v in edict.items():
     ulist.clear()
 
     c=c+1
-#docf.close()
-#termf.close()
+docf.close()
+termf.close()
 indexf.close()
