@@ -4,14 +4,16 @@ Created on Sat Sep  7 00:15:02 2019
 
 @author: M.Hamza Ashraf
 """
-#python "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\IR-Assignment1\Inverted_Index_hashmap.py" "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
+#python "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\IR-Assignment1\Inverted_Index_sorting.py" "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem import SnowballStemmer
 from bs4 import BeautifulSoup
 import sys
 import os
-a=0
-b=5
+# =============================================================================
+# a=0
+# b=5
+# =============================================================================
 DocId=1
 TermId=1
 position=0
@@ -31,8 +33,8 @@ final=""
 stemmer = SnowballStemmer('english')
 tk = RegexpTokenizer("[\w']+") 
 
-arg=r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
-#arg=sys.argv[1]
+#arg=r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
+arg=sys.argv[1]
 
 
 #docf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\docids.txt","w")
@@ -104,9 +106,11 @@ for i in files:
     stemmed_tokens.clear()
     position=0
     
-    a=a+1
-    if a==b:
-        break
+# =============================================================================
+#     a=a+1
+#     if a==b:
+#         break
+# =============================================================================
 
 doc_term_list.sort(key=takeSecond) 
 
