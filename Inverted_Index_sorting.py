@@ -98,29 +98,6 @@ for i in files:
                 doc_term_list.append([key,str(DocId-1) + "," + str(position)])
                 #inverted_list[takeSecond(j)-1].append(j[1])
             
-# =============================================================================
-#             if j not in uniquedict.keys():
-#                 
-#                 uniquedict.update({j:TermId})
-#                 
-#                 doc_term_list.append([TermId,str(DocId-1) + "," + str(position)])
-#                 TermId=TermId+1
-#                 #inverted_list.append(j)
-#                 #inverteddict.update({TermId:[str(DocId) + "," + str(position)]})
-#             
-#             else:
-#                 key = uniquedict.get(j)
-#                 doc_term_list.append([key,str(DocId-1) + "," + str(position)])
-#                 #inverted_list[int(key-1)].append(j[1])
-# =============================================================================
-            
-        doc_term_list.sort(key=takeSecond) 
-        
-        i=0
-        
-        prev = 1
-        
-        
             
     tokens.clear()
     new_tokens.clear()
@@ -131,80 +108,48 @@ for i in files:
     if a==b:
         break
 
-# =============================================================================
-# for j in doc_term_list:
-#             #print(j)
-#             if (j[0] == prev):
-#                      
-#                      inverted_list.append(j)
-#                      prev = prev + 1
-#             else:
-#             
-#                 inverted_list[takeSecond(j)-1].append(j[1])   
-# =============================================================================
-    
-#print(doc_term_list)        
-    # =============================================================================
-    #         else:
-    #             #print("repeat!!")
-    #             key = uniquedict.get(j)
-    #             
-    #             inverteddict[key].append(str(DocId) + "," + str(position))
-    # =============================================================================
-  
+doc_term_list.sort(key=takeSecond) 
 
-  
-             
-        
+prev = 1
+
+for j in doc_term_list:
+            if (j[0] == prev):
+                     
+                     inverted_list.append(j)
+                     prev = prev + 1
+            else:
             
-             
-        
-    
-    
-    
+                inverted_list[takeSecond(j)-1].append(j[1])   
+  
  
-# =============================================================================
-# ulist=[]
-# doc_term_list.sort(key=takeSecond)   
-#         
-# for j in doc_term_list:
-#     if j not in ulist:
-#                 ulist.append(j)
-#                 inverted_list.append(j)
-#               
-#     else:
-#         inverted_list[takeSecond(j)-1].append(j[1])
-# =============================================================================
+tlist = []
+a=1
 
+for k in inverted_list:
+    c=1
+    for x in k:
 
+        if(a == 1):
+            indexf.write(str(x) + " ")
+            indexf.write(str(len(k)-1) + " ")
+            
+        
+        else:
+            print(x)
+           
+            if ((str(x).split(',')[0]) not in tlist):
+                tlist.append(str(x).split(',')[0])  
+            
+            #indexf.write(str(len(tlist)) + " ")
+            indexf.write(x + " ")
+       
+            c = c + 1   
+            
+            tlist.clear()                       
+        a = 0
+    indexf.write("\n")             
+    a=1       
+    
+   
 
-
-#print(len(doc_term_list))
-#invertedtuple = ([elements] for elements in doc_term_list) 
-#print(inverted_list)
-# =============================================================================
-# ulist = []     
-# 
-# for k, v in inverteddict.items():
-#     vv = ' '.join(v)
-#     
-#     for x in v:
-#         if (x.split(',')[0]) not in ulist:
-#             ulist.append(x.split(',')[0])  
-#         
-#         
-#     indexf.write(str(k) + " ")
-#     indexf.write(str(len(v)) + " ")
-#     indexf.write(str(len(ulist)) + " ")
-#     
-#     for i in vv:
-#         indexf.write(i)
-#         
-#     indexf.write("\n")    
-#     ulist.clear()
-# =============================================================================
-
-
-#docf.close()
-#termf.close()
 indexf.close()
