@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 import sys
 import os
 a=0
-b=3
+b=5
 DocId=1
 TermId=1
 position=0
@@ -125,28 +125,43 @@ for j in doc_term_list:
 tlist = []
 a=1
 
+doc_occ = []
+
 for k in inverted_list:
-    c=1
+    
+    for x in k:
+           
+        if(a!=1):
+           
+            if ((str(x).split(',')[0]) not in tlist):
+                tlist.append(str(x).split(',')[0])  
+   
+    
+        a = 0
+    doc_occ.append(len(tlist))
+    tlist.clear()            
+    a=1   
+
+a=1
+c=1
+for k in inverted_list:
+    
     for x in k:
 
         if(a == 1):
             indexf.write(str(x) + " ")
             indexf.write(str(len(k)-1) + " ")
+            indexf.write(str(doc_occ[c-1]) + " ")
             
-        
         else:
-            print(x)
-           
-            if ((str(x).split(',')[0]) not in tlist):
-                tlist.append(str(x).split(',')[0])  
-            
-            #indexf.write(str(len(tlist)) + " ")
+        
             indexf.write(x + " ")
        
-            c = c + 1   
+              
             
             tlist.clear()                       
         a = 0
+    c = c + 1     
     indexf.write("\n")             
     a=1       
     
