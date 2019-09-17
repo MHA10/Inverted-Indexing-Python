@@ -14,8 +14,8 @@ import os
 # =============================================================================
 # a=0
 # b=5
+# 
 # =============================================================================
-
 DocId=1
 prev_DocId = 0
 prev_Position = 0
@@ -108,6 +108,7 @@ a=1;
 
 curr_DocId = 0;
 curr_Position = 0;
+doc_occ = []
 
 for k, v in inverteddict.items():
 
@@ -116,7 +117,9 @@ for k, v in inverteddict.items():
     
     
     for x in v:
-        
+        if (x.split(',')[0]) not in ulist:
+            ulist.append(x.split(',')[0])
+            
         if(a == 1):
             tlist.append(str(prev_DocId) + "," + str(prev_Position))
             a = 0;
@@ -132,23 +135,19 @@ for k, v in inverteddict.items():
                tlist.append(str(int(curr_DocId) - int(prev_DocId)) + "," + str(curr_Position))
                prev_DocId = curr_DocId
                prev_Position = curr_Position
-    
-         
+    doc_occ.append(len(ulist))
+    ulist.clear()     
     a = 1;
     edict.update({k:tlist})
     tlist = []       
 
+c=1
 for k, v in edict.items():
     vv = ' '.join(v)
-    
-    for x in v:
-        if (x.split(',')[0]) not in ulist:
-            ulist.append(x.split(',')[0])  
-        
         
     indexf.write(str(k) + " ")
     indexf.write(str(len(v)) + " ")
-    indexf.write(str(len(ulist)) + " ")
+    indexf.write(str(doc_occ[c-1]) + " ")
     
     for i in vv:
         indexf.write(i)
@@ -156,7 +155,7 @@ for k, v in edict.items():
     indexf.write("\n")    
     ulist.clear()
 
-
+    c=c+1
 #docf.close()
 #termf.close()
 indexf.close()
