@@ -19,6 +19,7 @@ position=0
 
 doc_term_list = []
 inverted_list = []
+ulist = []
 
 invertedtuple=()
 uniquedict={}
@@ -86,19 +87,40 @@ for i in files:
         for j in stemmed_tokens:
             position = position + 1
             
-            
-            
-            if j not in uniquedict.keys():
-                
-                uniquedict.update({j:TermId})
+            if j not in ulist:
+                ulist.append(j)
                 doc_term_list.append([TermId,str(DocId-1) + "," + str(position)])
                 TermId=TermId+1
-                #inverteddict.update({TermId:[str(DocId) + "," + str(position)]})
-            
+                #inverted_list.append(j)
+              
             else:
-                key = uniquedict.get(j)
+                key = (ulist.index(j)) + 1
                 doc_term_list.append([key,str(DocId-1) + "," + str(position)])
+                #inverted_list[takeSecond(j)-1].append(j[1])
             
+# =============================================================================
+#             if j not in uniquedict.keys():
+#                 
+#                 uniquedict.update({j:TermId})
+#                 
+#                 doc_term_list.append([TermId,str(DocId-1) + "," + str(position)])
+#                 TermId=TermId+1
+#                 #inverted_list.append(j)
+#                 #inverteddict.update({TermId:[str(DocId) + "," + str(position)]})
+#             
+#             else:
+#                 key = uniquedict.get(j)
+#                 doc_term_list.append([key,str(DocId-1) + "," + str(position)])
+#                 #inverted_list[int(key-1)].append(j[1])
+# =============================================================================
+            
+        doc_term_list.sort(key=takeSecond) 
+        
+        i=0
+        
+        prev = 1
+        
+        
             
     tokens.clear()
     new_tokens.clear()
@@ -107,7 +129,21 @@ for i in files:
     
     a=a+1
     if a==b:
-        break             
+        break
+
+# =============================================================================
+# for j in doc_term_list:
+#             #print(j)
+#             if (j[0] == prev):
+#                      
+#                      inverted_list.append(j)
+#                      prev = prev + 1
+#             else:
+#             
+#                 inverted_list[takeSecond(j)-1].append(j[1])   
+# =============================================================================
+    
+#print(doc_term_list)        
     # =============================================================================
     #         else:
     #             #print("repeat!!")
@@ -117,7 +153,7 @@ for i in files:
     # =============================================================================
   
 
-doc_term_list.sort(key=takeSecond)   
+  
              
         
             
