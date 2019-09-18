@@ -11,8 +11,8 @@ Created on Thu Sep 19 00:05:50 2019
 from nltk.stem import SnowballStemmer
 import sys
 
-#arg=sys.argv[2]
-arg = "chocolate"
+arg=sys.argv[2]
+#arg = "chocolate"
 
 termdict = {}
 
@@ -23,7 +23,6 @@ termf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1
 indexf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\term_index.txt","r")
 
 stemmed_word = (stemmer.stem(arg)) + "\n"
-print(stemmed_word)
 
 lines = termf.readlines()
 
@@ -32,14 +31,21 @@ for i in lines:
     termdict.update({thisline[1]:thisline[0]})
 
 termid = termdict.get(stemmed_word)
-print(termid)
-# =============================================================================
-#     if(thisline[1] == stemmed_word):
-#         print("MIL GAYA OYEEEEEEE!!!")
-#         print(thisline[1])
-#         termid = thisline[0]
-#         break
-# =============================================================================
+
+lines1 = indexf.readlines()
+thisline = ""
+i=1;
+
+for line in lines1:
+    
+    if(i == int(termid)):
+        thisline = line.split(" ")
+        break
+    i = i + 1
  
+print("Listing for term: " + arg + "\n")
+print("TERMID: " + termid + "\n")
+print("Number of documents containing term: " + thisline[2] + "\n")
+print("Term frequency in corpus: " + thisline[1] + "\n")
 
 indexf.close()
