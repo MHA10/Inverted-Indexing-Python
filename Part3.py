@@ -12,7 +12,6 @@ from nltk.stem import SnowballStemmer
 import sys
 
 arg=sys.argv[2]
-#arg = "chocolate"
 
 termdict = {}
 
@@ -43,9 +42,10 @@ for line in lines1:
         break
     i = i + 1
  
-print("Listing for term: " + arg + "\n")
+print("\nListing for term: " + arg + "\n")
 print("TERMID: " + termid + "\n")
 print("Number of documents containing term: " + thisline[2] + "\n")
 print("Term frequency in corpus: " + thisline[1] + "\n")
 
+termf.close()
 indexf.close()
