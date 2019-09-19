@@ -33,19 +33,24 @@ termid = termdict.get(stemmed_word)
 
 lines1 = indexf.readlines()
 thisline = ""
-i=1;
 
-for line in lines1:
-    
-    if(i == int(termid)):
-        thisline = line.split(" ")
-        break
-    i = i + 1
- 
-print("\nListing for term: " + arg + "\n")
-print("TERMID: " + termid + "\n")
-print("Number of documents containing term: " + thisline[2] + "\n")
-print("Term frequency in corpus: " + thisline[1] + "\n")
+if(termid != None):
+    i=1;
+
+    for line in lines1:
+        
+        if(i == int(termid)):
+            thisline = line.split(" ")
+            break
+        i = i + 1
+     
+    print("\nListing for term: " + arg + "\n")
+    print("TERMID: " + termid + "\n")
+    print("Number of documents containing term: " + thisline[2] + "\n")
+    print("Term frequency in corpus: " + thisline[1] + "\n")
+
+else:
+    print("\nTerm not found\n")
 
 termf.close()
 indexf.close()
