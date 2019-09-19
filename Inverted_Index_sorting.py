@@ -48,6 +48,9 @@ def takeSecond(elem):
     #print (elem[1])
     return elem[0] 
 
+def containsNonAscii(s):
+    return any(ord(i)>127 for i in s)
+
 for i in files:
     path = arg + "\\" + i
     p = os.path.splitext(path)
@@ -77,7 +80,7 @@ for i in files:
         
         tokens=[tok.lower() for tok in tokens if tok.isalpha()]
         
-        
+        tokens = [word for word in tokens if  not containsNonAscii(word)]
         
         for w in list(tokens): 
             if w not in s: 
