@@ -5,7 +5,7 @@ Created on Sun Sep 15 22:24:00 2019
 @author: M.Hamza Ashraf
 """
 
-#python "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\IR-Assignment1\Inverted_Index_hashmap.py" "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
+#python "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\IR-Assignment1\Part1.py" "E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem import SnowballStemmer
 from bs4 import BeautifulSoup
@@ -32,6 +32,8 @@ tk = RegexpTokenizer("[\w']+")
 #arg=r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\corpus"
 arg=sys.argv[1]
 
+def containsNonAscii(s):
+    return any(ord(i)>127 for i in s)
 
 docf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\docids.txt","w")
 termf = open(r"E:\FAST\7th_Semester\Information Retrieval\Assgnments\Assgnment_1\termids.txt","w",errors='ignore')
@@ -65,6 +67,7 @@ for i in files:
         tokens = tk.tokenize(final)
         
         tokens=[tok.lower() for tok in tokens if tok.isalpha()]
+        tokens = [word for word in tokens if  not containsNonAscii(word)]
         
         for w in list(tokens): 
             if w not in s: 
