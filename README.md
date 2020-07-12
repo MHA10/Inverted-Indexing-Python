@@ -6,3 +6,5 @@ If you combine these two assignments, you will have constructed a simple search 
 For this assignment, you will be using document collections provided.
 
 Read the "assignment 1.pdf" for instructions.
+
+Link for the files required : https://drive.google.com/file/d/1uD6_gIhGXbGthR8ACyFHpBsODOtJuO92/view?usp=sharing
