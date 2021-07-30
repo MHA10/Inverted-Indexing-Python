@@ -1,4 +1,4 @@
-# IR-Assignment1
+# Inverted Indexing Python
 
 In this assignment, you will write an indexer and use it to index a collection of documents.
 In the next assignment, you will create a ranker that uses your index to process queries.
